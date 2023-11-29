@@ -1,0 +1,12 @@
+name = "guizhan-builds-2-api" # todo
+main = "src/index.ts"
+compatibility_date = "2023-11-21"
+compatibility_flags = ["nodejs_compat"]
+
+[env.production]
+[env.production.vars]
+ENVIRONMENT = "production"
+
+[env.dev]
+[env.dev.vars]
+ENVIRONMENT = "dev"
