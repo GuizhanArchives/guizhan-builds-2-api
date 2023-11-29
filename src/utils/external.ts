@@ -13,7 +13,7 @@ export async function fetchProject(repo: string, branch?: string): Promise<Proje
 
 export async function fetchBuilds(r2: R2Bucket, project: Project): Promise<BuildsInfo | null> {
 	const file = await r2.get(`${project.author}/${project.repository}/${project.branch}/builds.json`)
-	return await file.json() as BuildsInfo
+	return await file.json<BuildsInfo>()
 }
 
 export async function fetchBuild(buildsInfo: BuildsInfo, build: string): Promise<BuildInfo | undefined> {

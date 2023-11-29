@@ -1,4 +1,3 @@
-import { BuildsInfo } from "guizhan-builds-2-data";
 import { Ctx } from "~/types/hono";
 import { fetchBuild, fetchBuilds, fetchProject } from "~/utils/external";
 import { response, responseOk } from "~/utils/response";
