@@ -1,5 +1,5 @@
 import { response, responseOk } from "~/utils/response";
-import { fetchProjects } from "~/utils/external";
+import { fetchProjects, fetchProject } from "~/utils/external";
 import { Ctx } from "~/types/hono";
 
 export async function getProjects(ctx: Ctx) {
@@ -18,9 +18,7 @@ export async function getProjects(ctx: Ctx) {
 }
 
 export async function getProject(ctx: Ctx) {
-	const projects = await fetchProjects()
-	const branch = ctx.req.param('branch')
-	const project = projects.find(project => project.repository === ctx.req.param('project') ? !branch || project.branch === branch : false);
+	const project = await fetchProject(ctx.req.param('project'), ctx.req.param('branch'))
 	if (!project) {
 		return ctx.json(response(404, 'Project not found!'), 404)
 	}

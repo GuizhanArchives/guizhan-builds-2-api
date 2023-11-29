@@ -1,11 +1,22 @@
 import { requestJson } from "~/utils/request"
-import { BuildsInfo, Projects, useParseProjects } from "guizhan-builds-2-data";
+import { BuildsInfo, Projects, Project, useParseProjects, BuildInfo } from "guizhan-builds-2-data";
 
-export async function fetchProjects() {
+export async function fetchProjects(): Promise<Project[]> {
 	const rawProjects = await requestJson<Projects>(`https://raw.githubusercontent.com/ybw0014/guizhan-builds-2/master/public/repos.json`)
 	return useParseProjects(rawProjects)
 }
 
-export async function fetchBuilds(path: string) {
-	return await requestJson<BuildsInfo>(`https://builds-r2.gzassets.net/${path}/builds.json`)
+export async function fetchProject(repo: string, branch?: string): Promise<Project | undefined> {
+	const projects = await fetchProjects()
+	return projects.find(project => project.repository === repo ? !branch || project.branch === branch : false)
+}
+
+export async function fetchBuilds(r2: R2Bucket, project: Project): Promise<BuildsInfo | null> {
+	const file = await r2.get(`${project.author}/${project.repository}/${project.branch}/builds.json`)
+	return await file.json() as BuildsInfo
+}
+
+export async function fetchBuild(buildsInfo: BuildsInfo, build: string): Promise<BuildInfo | undefined> {
+	const buildNum = build !== 'latest' ? parseInt(build) : buildsInfo.builds.length - 1
+	return buildsInfo.builds[buildNum]
 }

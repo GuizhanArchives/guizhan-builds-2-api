@@ -1,16 +1,15 @@
+import { BuildsInfo } from "guizhan-builds-2-data";
 import { Ctx } from "~/types/hono";
-import { fetchBuilds, fetchProjects } from "~/utils/external";
+import { fetchBuild, fetchBuilds, fetchProject } from "~/utils/external";
 import { response, responseOk } from "~/utils/response";
 
 export async function getBuilds(ctx: Ctx) {
-	const projects = await fetchProjects()
-	const branch = ctx.req.param('branch')
-	const project = projects.find(project => project.repository === ctx.req.param('project') ? !branch || project.branch === branch : false);
+	const project = await fetchProject(ctx.req.param('project'), ctx.req.param('branch'))
 	if (!project) {
 		return ctx.json(response(404, 'Project not found!'), 404)
 	}
 
-	const buildsInfo = await fetchBuilds(`${project.author}/${project.repository}/${project.branch}`)
+	const buildsInfo = await fetchBuilds(ctx.env.R2, project)
 	if (!buildsInfo) {
 		return ctx.json(response(404, 'Build not found!'), 404)
 	}
@@ -18,18 +17,17 @@ export async function getBuilds(ctx: Ctx) {
 }
 
 export async function getBuild(ctx: Ctx) {
-	const projects = await fetchProjects()
-	const project = projects.find(project => project.repository === ctx.req.param('project') && project.branch === ctx.req.param('branch'));
+	const project = await fetchProject(ctx.req.param('project'), ctx.req.param('branch'))
 	if (!project) {
 		return ctx.json(response(404, 'Project not found!'), 404)
 	}
 
-	const buildsInfo = await fetchBuilds(`${project.author}/${project.repository}/${project.branch}`)
+	const buildsInfo = await fetchBuilds(ctx.env.R2, project)
 	if (!buildsInfo) {
 		return ctx.json(response(404, 'Build not found!'), 404)
 	}
-	const buildNum = ctx.req.param('build') !== 'latest' ? parseInt(ctx.req.param('build')) : buildsInfo.builds.length - 1
-	const build = buildsInfo.builds[buildNum]
+
+	const build = await fetchBuild(buildsInfo, ctx.req.param('build'))
 	if (!build) {
 		return ctx.json(response(404, 'Build not found!'), 404)
 	}
@@ -38,18 +36,17 @@ export async function getBuild(ctx: Ctx) {
 }
 
 export async function downloadBuild(ctx: Ctx) {
-	const projects = await fetchProjects()
-	const project = projects.find(project => project.repository === ctx.req.param('project') && project.branch === ctx.req.param('branch'));
+	const project = await fetchProject(ctx.req.param('project'), ctx.req.param('branch'))
 	if (!project) {
 		return ctx.json(response(404, 'Project not found!'), 404)
 	}
 
-	const buildsInfo = await fetchBuilds(`${project.author}/${project.repository}/${project.branch}`)
+	const buildsInfo = await fetchBuilds(ctx.env.R2, project)
 	if (!buildsInfo) {
 		return ctx.json(response(404, 'Build not found!'), 404)
 	}
-	const buildNum = ctx.req.param('build') !== 'latest' ? parseInt(ctx.req.param('build')) : buildsInfo.builds.length - 1
-	const build = buildsInfo.builds[buildNum]
+
+	const build = await fetchBuild(buildsInfo, ctx.req.param('build'))
 	if (!build) {
 		return ctx.json(response(404, 'Build not found!'), 404)
 	}
