@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "wrangler dev --env dev",
+    "dev": "wrangler dev --env dev --remote",
     "test": "vitest",
     "deploy:dev": "wrangler deploy --env dev",
     "deploy:prod": "wrangler deploy --env production"
