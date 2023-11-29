@@ -11,6 +11,9 @@ export async function getBuilds(ctx: Ctx) {
 	}
 
 	const buildsInfo = await fetchBuilds(`${project.author}/${project.repository}/${project.branch}`)
+	if (!buildsInfo) {
+		return ctx.json(response(404, 'Build not found!'), 404)
+	}
 	return ctx.json(responseOk('Success', buildsInfo.builds))
 }
 
@@ -22,6 +25,9 @@ export async function getBuild(ctx: Ctx) {
 	}
 
 	const buildsInfo = await fetchBuilds(`${project.author}/${project.repository}/${project.branch}`)
+	if (!buildsInfo) {
+		return ctx.json(response(404, 'Build not found!'), 404)
+	}
 	const buildNum = ctx.req.param('build') !== 'latest' ? parseInt(ctx.req.param('build')) : buildsInfo.builds.length - 1
 	const build = buildsInfo.builds[buildNum]
 	if (!build) {
@@ -39,6 +45,9 @@ export async function downloadBuild(ctx: Ctx) {
 	}
 
 	const buildsInfo = await fetchBuilds(`${project.author}/${project.repository}/${project.branch}`)
+	if (!buildsInfo) {
+		return ctx.json(response(404, 'Build not found!'), 404)
+	}
 	const buildNum = ctx.req.param('build') !== 'latest' ? parseInt(ctx.req.param('build')) : buildsInfo.builds.length - 1
 	const build = buildsInfo.builds[buildNum]
 	if (!build) {
