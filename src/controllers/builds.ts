@@ -1,5 +1,5 @@
 import { Ctx } from "~/types/hono";
-import { fetchBuild, fetchBuilds, fetchProject } from "~/utils/external";
+import { fetchBuild, fetchBuilds, fetchProject } from "~/utils/external/guizhanBuilds";
 import { response, responseOk } from "~/utils/response";
 
 export async function getBuilds(ctx: Ctx) {

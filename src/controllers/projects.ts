@@ -1,5 +1,5 @@
 import { response, responseOk } from "~/utils/response";
-import { fetchProjects, fetchProject } from "~/utils/external";
+import { fetchProjects, fetchProject } from "~/utils/external/guizhanBuilds";
 import { Ctx } from "~/types/hono";
 
 export async function getProjects(ctx: Ctx) {

@@ -4,4 +4,4 @@
 
 所有的 API 端点都可以在[该文件](https://github.com/ybw0014/guizhan-builds-2-api/blob/master/src/index.ts)中查询。
 
-部署地址：https://builds.guizhanss.com/api/
+部署地址：`https://builds.guizhanss.com/api/`
