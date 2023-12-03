@@ -1,26 +1,26 @@
-import { response, responseOk } from '~/utils/response';
-import { fetchProjects, fetchProject } from '~/utils/external/guizhanBuilds';
-import { Ctx } from '~/types/hono';
+import { response, responseOk } from '~/utils/response'
+import { fetchProjects, fetchProject } from '~/utils/external/guizhanBuilds'
+import { Ctx } from '~/types/hono'
 
 export async function getProjects(ctx: Ctx) {
-  const projects = await fetchProjects();
+  const projects = await fetchProjects()
 
-  const result = [];
+  const result = []
   for (const project of projects) {
     result.push({
       author: project.author,
       repository: project.repository,
-      branch: project.branch,
-    });
+      branch: project.branch
+    })
   }
 
-  return ctx.json(responseOk('Success', result));
+  return ctx.json(responseOk('Success', result))
 }
 
 export async function getProject(ctx: Ctx) {
-  const project = await fetchProject(ctx.req.param('project'), ctx.req.param('branch'));
+  const project = await fetchProject(ctx.req.param('project'), ctx.req.param('branch'))
   if (!project) {
-    return ctx.json(response(404, 'Project not found!'), 404);
+    return ctx.json(response(404, 'Project not found!'), 404)
   }
-  return ctx.json(responseOk('Success', project));
+  return ctx.json(responseOk('Success', project))
 }

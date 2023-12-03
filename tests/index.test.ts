@@ -1,21 +1,21 @@
-import type { UnstableDevWorker } from 'wrangler';
-import { describe, test, expect, beforeAll } from 'vitest';
-import { setupWorker } from './utils/testutils';
+import type { UnstableDevWorker } from 'wrangler'
+import { describe, test, expect, beforeAll } from 'vitest'
+import { setupWorker } from './utils/testutils'
 
 describe('Test api base', () => {
-  let worker: UnstableDevWorker;
+  let worker: UnstableDevWorker
 
   beforeAll(async () => {
-    worker = await setupWorker();
-  });
+    worker = await setupWorker()
+  })
 
   test('Test /', async () => {
-    const response = await worker.fetch('/');
-    expect(response.status).toBe(200);
-  });
+    const response = await worker.fetch('/')
+    expect(response.status).toBe(200)
+  })
 
   test('Test not found route', async () => {
-    const response = await worker.fetch('/notfound');
-    expect(response.status).toBe(404);
-  });
-});
+    const response = await worker.fetch('/notfound')
+    expect(response.status).toBe(404)
+  })
+})

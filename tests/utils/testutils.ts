@@ -1,10 +1,10 @@
-import { unstable_dev } from 'wrangler';
+import { unstable_dev } from 'wrangler'
 
 export async function setupWorker() {
   return unstable_dev('src/index.ts', {
     env: 'dev',
     vars: {
-      ENVIRONMENT: 'test',
+      ENVIRONMENT: 'test'
     },
 
     updateCheck: false,
@@ -12,7 +12,7 @@ export async function setupWorker() {
       disableExperimentalWarning: true,
       disableDevRegistry: true,
       forceLocal: true,
-      testMode: true,
-    },
-  });
+      testMode: true
+    }
+  })
 }

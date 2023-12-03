@@ -1,4 +1,4 @@
-import { Context } from 'hono';
+import { Context } from 'hono'
 
 export type Environment = 'test' | 'dev' | 'staging' | 'production';
 

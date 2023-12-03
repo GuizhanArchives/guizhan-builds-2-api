@@ -1,3 +1,3 @@
 module.exports = {
-  extends: ['@guizhan/eslint-config'],
-};
+  extends: ['@guizhan/eslint-config']
+}
