@@ -6,7 +6,6 @@ export async function setupWorker() {
     vars: {
       ENVIRONMENT: 'test'
     },
-
     updateCheck: false,
     experimental: {
       disableExperimentalWarning: true,

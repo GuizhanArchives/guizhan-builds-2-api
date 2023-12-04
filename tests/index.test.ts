@@ -1,5 +1,5 @@
 import type { UnstableDevWorker } from 'wrangler'
-import { describe, test, expect, beforeAll } from 'vitest'
+import { describe, beforeAll, test, expect } from 'vitest'
 import { setupWorker } from './utils/testutils'
 
 describe('Test api base', () => {

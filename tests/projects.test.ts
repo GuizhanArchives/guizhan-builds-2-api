@@ -1,8 +1,9 @@
 import type { UnstableDevWorker } from 'wrangler'
-import { describe, test, expect, beforeAll } from 'vitest'
+import { describe, beforeAll, test, expect, expectTypeOf } from 'vitest'
 import { setupWorker } from './utils/testutils'
 import { ApiResponseTyped } from '~/types/api'
 import { ProjectResponse } from '~/types/builds'
+import { Project } from 'guizhan-builds-2-data'
 
 describe('Test projects', () => {
   let worker: UnstableDevWorker
@@ -19,35 +20,25 @@ describe('Test projects', () => {
     expect(respJson).toHaveProperty('data')
     const resp = respJson as ApiResponseTyped<ProjectResponse[]>
 
-    // TODO: replace with expectTypeOf
-    // for some reason, expectTypeOf(resp.data).toBeArray() is not working
-    // https://github.com/vitest-dev/vitest/issues/4273
-    expect(Array.isArray(resp.data)).toBeTruthy()
+    expectTypeOf(resp.data).toBeArray()
 
     const data = resp.data[0]
-    expect(data).toHaveProperty('author')
-    expect(data).toHaveProperty('repository')
-    expect(data).toHaveProperty('branch')
+    expectTypeOf(data).toEqualTypeOf<ProjectResponse>()
   })
 
   test('Test /project/:project', async () => {
     const response = await worker.fetch('/project/Slimefun4')
     expect(response.status).toBe(200)
 
-    const response2 = await worker.fetch('/project/kjspafwwin')
+    const response2 = await worker.fetch('/project/ThisDoesNotExist')
     expect(response2.status).toBe(404)
 
     const respJson = await response.json()
     expect(respJson).toHaveProperty('data')
-    const resp = respJson as ApiResponseTyped<ProjectResponse>
-
-    expect(Array.isArray(resp.data)).toBeFalsy()
+    const resp = respJson as ApiResponseTyped<Project>
 
     const data = resp.data
-    // TODO: replace with expectTypeOf
-    expect(data).toHaveProperty('author')
-    expect(data).toHaveProperty('repository')
-    expect(data).toHaveProperty('branch')
+    expectTypeOf(data).toEqualTypeOf<Project>()
   })
 
 })

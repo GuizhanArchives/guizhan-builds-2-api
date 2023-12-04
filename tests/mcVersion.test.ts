@@ -1,5 +1,5 @@
 import type { UnstableDevWorker } from 'wrangler'
-import { describe, test, expect, beforeAll } from 'vitest'
+import { describe, beforeAll, test, expect, expectTypeOf } from 'vitest'
 import { setupWorker } from './utils/testutils'
 import { ApiResponseTyped } from '~/types/api'
 
@@ -18,9 +18,9 @@ describe('Test mcVersion', () => {
     expect(respJson).toHaveProperty('data')
     const resp = respJson as ApiResponseTyped<string[]>
 
-    // TODO: replace with expectTypeOf
-    // for some reason, expectTypeOf(resp.data).toBeArray() is not working
-    // https://github.com/vitest-dev/vitest/issues/4273
-    expect(Array.isArray(resp.data)).toBeTruthy()
+    expectTypeOf(resp.data).toBeArray()
+
+    // should have the minimum supported version
+    expect(resp.data).toContain('1.16.5')
   })
 })
