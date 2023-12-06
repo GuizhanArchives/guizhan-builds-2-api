@@ -5,7 +5,7 @@ export async function requestJson<T>(url: string): Promise<T> {
         throw new Error(response.statusText)
       }
       return response.json() as Promise<T>
-    }).catch(err => {
+    }).catch(() => {
       return null as T
     })
 }

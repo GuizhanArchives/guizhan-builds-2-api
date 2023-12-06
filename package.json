@@ -7,13 +7,15 @@
     "test": "vitest --ui --typecheck",
     "deploy:dev": "wrangler deploy --env dev",
     "deploy:prod": "wrangler deploy --env production",
-    "lint": "eslint --ext .ts,.js,.vue --ignore-path .gitignore ."
+    "lint": "eslint --ext .ts,.js,.vue --ignore-path .gitignore .",
+    "lint:fix": "eslint --ext .ts,.js,.vue --ignore-path .gitignore --fix ."
   },
   "dependencies": {
     "compare-versions": "^6.1.0",
     "guizhan-builds-2-data": "^0.6.0",
     "hono": "^3.10.3",
-    "itty-router": "^4.0.23"
+    "itty-router": "^4.0.23",
+    "resolve-accept-language": "^2.1.9"
   },
   "devDependencies": {
     "@cloudflare/workers-types": "^4.20231121.0",

@@ -8,9 +8,12 @@
 		"baseUrl": "./",
 		"outDir": "./dist",
 		"allowSyntheticDefaultImports": true,
+    "jsx": "react-jsx",
+    "jsxImportSource": "hono/jsx",
 		"paths": {
 			"~/*": ["./src/*"],
-			"~/shared/*": ["../src/*"]
+			"~/shared/*": ["../src/*"],
+			"~/assets/*": ["./assets/*"]
 		}
 	}
 }
