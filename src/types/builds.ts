@@ -3,3 +3,9 @@ export interface ProjectResponse {
 	repository: string
 	branch: string
 }
+
+export interface BadgeProps {
+  color: string
+  build: string
+  status: string
+}

@@ -3,7 +3,7 @@ import { fetchBuild, fetchBuilds, fetchProject } from '~/utils/external/guizhanB
 import { response, responseOk } from '~/utils/response'
 
 export async function getBuilds(ctx: Ctx) {
-  const project = await fetchProject(ctx.req.param('project'), ctx.req.param('branch'))
+  const project = await fetchProject(ctx.req.param('author'), ctx.req.param('repository'), ctx.req.param('branch'))
   if (!project) {
     return ctx.json(response(404, 'Project not found!'), 404)
   }
@@ -16,7 +16,7 @@ export async function getBuilds(ctx: Ctx) {
 }
 
 export async function getBuild(ctx: Ctx) {
-  const project = await fetchProject(ctx.req.param('project'), ctx.req.param('branch'))
+  const project = await fetchProject(ctx.req.param('author'), ctx.req.param('repository'), ctx.req.param('branch'))
   if (!project) {
     return ctx.json(response(404, 'Project not found!'), 404)
   }
@@ -35,7 +35,7 @@ export async function getBuild(ctx: Ctx) {
 }
 
 export async function downloadBuild(ctx: Ctx) {
-  const project = await fetchProject(ctx.req.param('project'), ctx.req.param('branch'))
+  const project = await fetchProject(ctx.req.param('author'), ctx.req.param('repository'), ctx.req.param('branch'))
   if (!project) {
     return ctx.json(response(404, 'Project not found!'), 404)
   }

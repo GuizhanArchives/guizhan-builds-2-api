@@ -18,7 +18,7 @@ export async function getProjects(ctx: Ctx) {
 }
 
 export async function getProject(ctx: Ctx) {
-  const project = await fetchProject(ctx.req.param('project'), ctx.req.param('branch'))
+  const project = await fetchProject(ctx.req.param('author'), ctx.req.param('repository'), ctx.req.param('branch'))
   if (!project) {
     return ctx.json(response(404, 'Project not found!'), 404)
   }

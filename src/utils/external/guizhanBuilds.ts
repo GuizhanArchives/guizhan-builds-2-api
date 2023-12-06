@@ -8,9 +8,11 @@ export async function fetchProjects(): Promise<Project[]> {
   return useParseProjects(rawProjects)
 }
 
-export async function fetchProject(repo: string, branch?: string): Promise<Project | undefined> {
+export async function fetchProject(author: string, repo: string, branch?: string): Promise<Project | undefined> {
   const projects = await fetchProjects()
-  return projects.find(project => project.repository === repo ? !branch || project.branch === branch : false)
+  return projects.find(project => 
+    (project.author === author && project.repository === repo) ? !branch || project.branch === branch : false
+  )
 }
 
 export async function fetchBuilds(r2: R2Bucket, project: Project): Promise<BuildsInfo | null> {
@@ -19,6 +21,6 @@ export async function fetchBuilds(r2: R2Bucket, project: Project): Promise<Build
 }
 
 export async function fetchBuild(buildsInfo: BuildsInfo, build: string): Promise<BuildInfo | undefined> {
-  const buildNum = build !== 'latest' ? parseInt(build) : buildsInfo.builds.length - 1
+  const buildNum = build !== 'latest' ? parseInt(build) - 1 : buildsInfo.builds.length - 1
   return buildsInfo.builds[buildNum]
 }
