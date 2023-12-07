@@ -29,7 +29,7 @@ export async function getBuildBadge(ctx: Ctx) {
 }
 
 function getBadge(status: Field, lang: string): string {
-  let color
+  let color: string
   switch (status) {
     case Field.SUCCESS:
       color = '#009688'
