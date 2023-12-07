@@ -1,4 +1,5 @@
 import { Hono } from 'hono'
+import { cache } from 'hono/cache'
 import { response } from '~/utils/response'
 import { getProjects, getProject } from '~/controllers/projects'
 import { getBuilds, getBuild, downloadBuild } from '~/controllers/builds'
@@ -20,7 +21,12 @@ app.get('/project/:author/:repository/:branch?', getProject)
 app.get('/builds/:author/:repository/:branch?', getBuilds)
 app.get('/build/:author/:repository/:branch/:build', getBuild)
 app.get('/download/:author/:repository/:branch/:build', downloadBuild)
-app.get('/badge/:author/:repository/:branch/:build', getBuildBadge)
 app.get('/mc-versions', getMcVersions)
+
+app.get('/badge/*', cache({
+  cacheName: 'badge',
+  cacheControl: 'max-age=3600'
+}))
+app.get('/badge/:author/:repository/:branch/:build', getBuildBadge)
 
 export default app
