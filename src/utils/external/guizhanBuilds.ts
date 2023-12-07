@@ -11,7 +11,10 @@ export async function fetchProjects(): Promise<Project[]> {
 export async function fetchProject(author: string, repo: string, branch?: string): Promise<Project | undefined> {
   const projects = await fetchProjects()
   return projects.find(project => 
-    (project.author === author && project.repository === repo) ? !branch || project.branch === branch : false
+    project.author && project.repository && 
+      project.author.toLocaleLowerCase() === author.toLocaleLowerCase() && 
+      project.repository.toLocaleLowerCase() === repo.toLocaleLowerCase() 
+      ? !branch || project.branch === branch : false
   )
 }
 
