@@ -26,11 +26,11 @@ describe('Test projects', () => {
     expectTypeOf(data).toEqualTypeOf<ProjectResponse>()
   })
 
-  test('Test /project/:author/:repository', async () => {
-    const response = await worker.fetch('/project/StarWishsama/Slimefun4')
+  test('Test /project/:author/:repository/:branch', async () => {
+    const response = await worker.fetch('/project/StarWishsama/Slimefun4/master')
     expect(response.status).toBe(200)
 
-    const response2 = await worker.fetch('/project/ThisDoesNotExist/NotExistAsWell')
+    const response2 = await worker.fetch('/project/ThisDoesNotExist/NotExistAsWell/master')
     expect(response2.status).toBe(404)
 
     const respJson = await response.json()

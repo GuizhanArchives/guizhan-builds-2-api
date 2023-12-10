@@ -9,5 +9,5 @@ export async function getMcVersions(ctx: Ctx) {
     .filter(ver => ver.type === 'release')
     .map(ver => ver.id)
     .filter(version => compareVersions(version, '1.16.5') >= 0)
-  return ctx.json(responseOk('Success', versions))
+  return ctx.jsonT(responseOk('Success', versions))
 }

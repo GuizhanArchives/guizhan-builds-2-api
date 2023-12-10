@@ -14,13 +14,13 @@ export async function getProjects(ctx: Ctx) {
     })
   }
 
-  return ctx.json(responseOk('Success', result))
+  return ctx.jsonT(responseOk('Success', result))
 }
 
 export async function getProject(ctx: Ctx) {
   const project = await fetchProject(ctx.req.param('author'), ctx.req.param('repository'), ctx.req.param('branch'))
   if (!project) {
-    return ctx.json(response(404, 'Project not found!'), 404)
+    return ctx.jsonT(response(404, 'Project not found!'), 404)
   }
-  return ctx.json(responseOk('Success', project))
+  return ctx.jsonT(responseOk('Success', project))
 }
