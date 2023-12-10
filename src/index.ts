@@ -36,7 +36,7 @@ app.openapi(projectRoute, getProject)
 app.openapi(buildsRoute, getBuilds)
 app.openapi(buildRoute, getBuild)
 
-// special endpoints that does not return json
+// special endpoints that do not return json
 app.get('/download/:author/:repository/:branch/:build', downloadBuild)
 
 app.get('/badge/*', badgeCache({ cacheControl: 'max-age=3600' }))
