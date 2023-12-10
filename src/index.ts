@@ -1,12 +1,16 @@
-import { Hono } from 'hono'
+import { OpenAPIHono } from '@hono/zod-openapi'
+import { swaggerUI } from '@hono/swagger-ui'
 import { response } from '~/utils/response'
-import { getProjects, getProject } from '~/controllers/projects'
+import { getProject, getProjects } from '~/controllers/projects'
 import { getBuilds, getBuild, downloadBuild } from '~/controllers/builds'
 import { getMcVersions } from '~/controllers/mcVersion'
 import { getBuildBadge } from '~/controllers/buildBadge'
 import { badgeCache } from '~/middlewares/badgeCache'
+import { projectsRoute, projectRoute } from '~/routes/projects'
+import { mcVersionsRoute } from '~/routes/mcVersions'
+import { buildRoute, buildsRoute } from '~/routes/builds'
 
-const app = new Hono()
+const app = new OpenAPIHono()
 
 app.notFound((ctx) => ctx.json(response(404, 'Route not found!'), 404))
 app.onError((err, ctx) => {
@@ -14,14 +18,26 @@ app.onError((err, ctx) => {
   return ctx.json(response(500, 'Internal server error!'), 500)
 })
 
-app.get('/', (ctx) => ctx.json(response(0, 'Guizhan Builds 2 API')))
+app.get('/', (ctx) => ctx.json(
+  response(0, 'Guizhan Builds 2 API. See /openapi for OpenAPI endpoints, /docs for readable docs')
+))
+app.doc('/openapi', {
+  openapi: '3.1.0',
+  info: {
+    title: 'Guizhan Builds 2 API',
+    version: '0.3.0'
+  }
+})
+app.use('/docs', swaggerUI({ url: '/openapi' }))
 
-app.get('/projects', getProjects)
-app.get('/project/:author/:repository/:branch?', getProject)
-app.get('/builds/:author/:repository/:branch?', getBuilds)
-app.get('/build/:author/:repository/:branch/:build', getBuild)
+app.openapi(mcVersionsRoute, getMcVersions)
+app.openapi(projectsRoute, getProjects)
+app.openapi(projectRoute, getProject)
+app.openapi(buildsRoute, getBuilds)
+app.openapi(buildRoute, getBuild)
+
+// special endpoints that do not return json
 app.get('/download/:author/:repository/:branch/:build', downloadBuild)
-app.get('/mc-versions', getMcVersions)
 
 app.get('/badge/*', badgeCache({ cacheControl: 'max-age=3600' }))
 app.get('/badge/:author/:repository/:branch/:build', getBuildBadge)
