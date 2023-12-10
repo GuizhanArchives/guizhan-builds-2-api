@@ -28,7 +28,7 @@ app.doc('/openapi', {
     version: '0.3.0'
   }
 })
-app.use('/docs', swaggerUI({ url: '/openapi' }))
+app.use('/docs', swaggerUI({ url: './openapi' }))
 
 app.openapi(mcVersionsRoute, getMcVersions)
 app.openapi(projectsRoute, getProjects)
