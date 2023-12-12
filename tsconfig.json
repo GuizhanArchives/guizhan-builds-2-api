@@ -10,6 +10,7 @@
 		"allowSyntheticDefaultImports": true,
     "jsx": "react-jsx",
     "jsxImportSource": "hono/jsx",
+		"resolveJsonModule": true,
 		"paths": {
 			"~/*": ["./src/*"],
 			"~/shared/*": ["../src/*"]

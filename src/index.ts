@@ -9,6 +9,7 @@ import { badgeCache } from '~/middlewares/badgeCache'
 import { projectsRoute, projectRoute } from '~/routes/projects'
 import { mcVersionsRoute } from '~/routes/mcVersions'
 import { buildRoute, buildsRoute } from '~/routes/builds'
+import { version } from '~/../package.json'
 
 const app = new OpenAPIHono()
 
@@ -25,7 +26,7 @@ app.doc('/openapi', {
   openapi: '3.1.0',
   info: {
     title: 'Guizhan Builds 2 API',
-    version: '0.3.0'
+    version
   }
 })
 app.use('/docs', swaggerUI({ url: './openapi' }))

@@ -1,6 +1,6 @@
 {
   "name": "guizhan-builds-2-api",
-  "version": "0.2.0",
+  "version": "0.3.1",
   "private": true,
   "scripts": {
     "dev": "wrangler dev --env dev --remote",
